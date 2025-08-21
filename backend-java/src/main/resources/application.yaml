@@ -1,0 +1,31 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.0.10:3306/db-todo-tutor
+    username: root
+    password: 123456
+  data:
+    redis:
+      host: 192.168.0.10
+      port: 6379
+      password: 123456
+      database: 0
+  mail:
+    host: smtp.qq.com
+    username: 1270701867@qq.com
+    password: 123456
+    port: 465
+    default-encoding: UTF-8
+    properties:
+      timeout: 5000
+      connection-timeout: 5000
+      write-timeout: 5000
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            socketFactoryClass: javax.net.ssl.SSLSocketFactory
