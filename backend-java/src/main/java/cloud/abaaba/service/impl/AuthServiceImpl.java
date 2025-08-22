@@ -37,12 +37,12 @@ public class AuthServiceImpl implements AuthService {
     @Resource
     private RedisClient redisClient;
 
-    public static final String LOGIN_USER = "his:login:user:";
-    public static final String LOGIN_TOKEN = "his:login:token:";
+    public static final String LOGIN_USER = "todo-tutor:login:user:";
+    public static final String LOGIN_TOKEN = "todo-tutor:login:token:";
 
-    public static final String LOGIN_CAPTCHA_KEY = "his:captcha:login:";
-    public static final String RESET_PASSWORD_CAPTCHA_KEY = "his:captcha:reset-password:";
-    public static final String RESET_EMAIL_CAPTCHA_KEY = "his:captcha:reset-email:";
+    public static final String LOGIN_CAPTCHA_KEY = "todo-tutor:captcha:login:";
+    public static final String RESET_PASSWORD_CAPTCHA_KEY = "todo-tutor:captcha:reset-password:";
+    public static final String RESET_EMAIL_CAPTCHA_KEY = "todo-tutor:captcha:reset-email:";
 
     @Override
     public AuthDO loginByUsername(AuthDO authDO) {
