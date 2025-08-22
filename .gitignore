@@ -28,3 +28,4 @@ replay_pid*
 *.iml
 logs/
 backend-java/target/
+.fastRequest/
