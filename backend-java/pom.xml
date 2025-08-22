@@ -16,8 +16,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 三方库依赖版本 -->
-        <spring.boot.version>3.2.4</spring.boot.version>
-        <lombok.version>1.18.36</lombok.version>
+        <spring.boot.version>3.4.0</spring.boot.version>
+        <lombok.version>1.18.38</lombok.version>
         <hutool.version>5.8.29</hutool.version>
         <ttl.version>2.13.2</ttl.version>
         <mybatis.plus.version>3.5.9</mybatis.plus.version>
@@ -151,9 +151,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
