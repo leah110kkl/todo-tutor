@@ -1,4 +1,4 @@
-FROM 192.168.0.20:80/library/openjdk:8
+FROM 192.168.0.20:80/library/openjdk:17
 
 # 添加时区环境变量，亚洲，上海
 ENV TimeZone=Asia/Shanghai
