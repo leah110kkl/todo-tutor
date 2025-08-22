@@ -8,4 +8,4 @@ RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /et
 # 将jar包复制到容器中
 ADD target/backend-java-1.0.0.jar /backend-java.jar
 # 启动
-ENTRYPOINT ["java","-jar","/backend-java.jar"]
+ENTRYPOINT ["java","-jar","/backend-java.jar", "-Dspring.config.location=/application.yaml"]
