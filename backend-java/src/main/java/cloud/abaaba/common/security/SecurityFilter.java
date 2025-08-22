@@ -36,6 +36,8 @@ public class SecurityFilter extends OncePerRequestFilter {
      * 白名单接口
      */
     public static final String[] IGNORE_URLS = new String[]{
+            "/auth/sendRegisterEmail",
+            "/auth/register",
             "/auth/loginByUsername",
             "/auth/sendLoginEmail",
             "/auth/loginByEmail",

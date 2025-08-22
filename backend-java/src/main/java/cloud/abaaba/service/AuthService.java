@@ -11,9 +11,23 @@ import cloud.abaaba.service.domain.AuthDO;
 public interface AuthService {
 
     /**
+     * 发送注册验证码
+     *
+     * @param authDO authDO
+     */
+    void sendRegisterEmail(AuthDO authDO);
+
+    /**
+     * 注册
+     *
+     * @param authDO authDO
+     */
+    void register(AuthDO authDO);
+
+    /**
      * 登录（用户名+密码）
      *
-     * @param authDO loginDO
+     * @param authDO authDO
      * @return 用户详情
      */
     AuthDO loginByUsername(AuthDO authDO);
@@ -21,7 +35,7 @@ public interface AuthService {
     /**
      * 登录场景-发送邮箱验证码
      *
-     * @param authDO loginDO
+     * @param authDO authDO
      */
     void sendLoginEmail(AuthDO authDO);
 

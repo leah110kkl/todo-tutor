@@ -1,5 +1,6 @@
 package cloud.abaaba.common.mybatis;
 
+import cloud.abaaba.service.domain.UserDO;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import cloud.abaaba.common.trace.ReqInfoContextHolder;
 import org.apache.ibatis.reflection.MetaObject;
@@ -33,9 +34,16 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
             basePO.setUpdateTime(date);
 
             // 设置用户
-            Long userId = ReqInfoContextHolder.getReqInfo().getCurrentUser().getUserId();
-            basePO.setCreateBy(userId);
-            basePO.setUpdateBy(userId);
+            UserDO currentUser = ReqInfoContextHolder.getReqInfo().getCurrentUser();
+            if (currentUser != null) {
+                Long userId = currentUser.getUserId();
+                basePO.setCreateBy(userId);
+                basePO.setUpdateBy(userId);
+            } else {
+                basePO.setCreateBy(0L);
+                basePO.setUpdateBy(0L);
+            }
+
         }
     }
 
@@ -52,8 +60,13 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
             basePO.setUpdateTime(new Date());
 
             // 设置用户
-            Long userId = ReqInfoContextHolder.getReqInfo().getCurrentUser().getUserId();
-            basePO.setUpdateBy(userId);
+            UserDO currentUser = ReqInfoContextHolder.getReqInfo().getCurrentUser();
+            if (currentUser != null) {
+                Long userId = currentUser.getUserId();
+                basePO.setUpdateBy(userId);
+            } else {
+                basePO.setUpdateBy(0L);
+            }
         }
     }
 

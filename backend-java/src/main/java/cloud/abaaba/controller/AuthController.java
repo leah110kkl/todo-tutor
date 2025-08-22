@@ -27,6 +27,20 @@ public class AuthController {
     @Resource
     private AuthService authService;
 
+    @Operation(summary = "发送验证码（注册）")
+    @PostMapping("/sendRegisterEmail")
+    public Response<?> sendRegisterEmail(@RequestBody AuthDTO registerDTO) {
+        authService.sendRegisterEmail(registerDTO);
+        return Response.success();
+    }
+
+    @Operation(summary = "注册")
+    @PostMapping("/register")
+    public Response<?> register(@RequestBody AuthDTO registerDTO) {
+        authService.register(registerDTO);
+        return Response.success();
+    }
+
     /**
      * 登录（用户名+密码）
      */

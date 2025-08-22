@@ -4,6 +4,7 @@ import cloud.abaaba.common.exception.BusinessException;
 import cloud.abaaba.common.exception.enums.GlobalExceptionCode;
 import cloud.abaaba.common.exception.enums.LoginExceptionCode;
 import cloud.abaaba.common.mail.MailClient;
+import cloud.abaaba.common.mail.template.RegisterCodeTemplate;
 import cloud.abaaba.common.mail.template.LoginCodeTemplate;
 import cloud.abaaba.common.mail.template.ResetEmailCodeTemplate;
 import cloud.abaaba.common.mail.template.ResetPasswordCodeTemplate;
@@ -15,11 +16,16 @@ import cloud.abaaba.service.AuthService;
 import cloud.abaaba.service.domain.AuthDO;
 import cloud.abaaba.service.domain.UserDO;
 import cloud.abaaba.service.repo.UserRepo;
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.mail.MailUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * LoginServiceImpl
@@ -40,9 +46,65 @@ public class AuthServiceImpl implements AuthService {
     public static final String LOGIN_USER = "todo-tutor:login:user:";
     public static final String LOGIN_TOKEN = "todo-tutor:login:token:";
 
+    public static final String REGISTER_CAPTCHA_KEY = "todo-tutor:captcha:register:";
     public static final String LOGIN_CAPTCHA_KEY = "todo-tutor:captcha:login:";
     public static final String RESET_PASSWORD_CAPTCHA_KEY = "todo-tutor:captcha:reset-password:";
     public static final String RESET_EMAIL_CAPTCHA_KEY = "todo-tutor:captcha:reset-email:";
+
+    @Override
+    public void sendRegisterEmail(AuthDO authDO) {
+        // 用户名不能重复
+        if (StrUtil.isBlank(authDO.getUsername())) {
+            throw new BusinessException(GlobalExceptionCode.UNKNOWN_OTHER, "用户名不能为空");
+        }
+        if (userRepo.selectByUsername(authDO.getUsername()) != null) {
+            throw new BusinessException(GlobalExceptionCode.UNKNOWN_OTHER, "用户名已存在");
+        }
+
+        // 生成验证码，过期时间 5分钟
+        String code = CaptchaUtil.generateNumericCode();
+        int expire = 5;
+
+        // 发送邮件
+        redisClient.set(REGISTER_CAPTCHA_KEY + authDO.getEmail(), code, expire, TimeUnit.MINUTES);
+        mailClient.send(RegisterCodeTemplate.getInstance(code, expire), authDO.getEmail());
+    }
+
+    @Override
+    public void register(AuthDO authDO) {
+        // 用户名不能重复
+        if (StrUtil.isBlank(authDO.getUsername())) {
+            throw new BusinessException(GlobalExceptionCode.UNKNOWN_OTHER, "用户名不能为空");
+        }
+        if (userRepo.selectByUsername(authDO.getUsername()) != null) {
+            throw new BusinessException(GlobalExceptionCode.UNKNOWN_OTHER, "用户名已存在");
+        }
+
+        // 邮箱不能重复
+        if (StrUtil.isBlank(authDO.getEmail())) {
+            throw new BusinessException(GlobalExceptionCode.UNKNOWN_OTHER, "邮箱不能为空");
+        }
+        if (!Validator.isEmail(authDO.getEmail())) {
+            throw new BusinessException(GlobalExceptionCode.UNKNOWN_OTHER, "邮箱格式错误");
+        }
+        if (userRepo.selectByEmail(authDO.getEmail()) != null) {
+            throw new BusinessException(GlobalExceptionCode.UNKNOWN_OTHER, "邮箱已存在");
+        }
+
+        // 校验验证码
+        String sendCode = (String) redisClient.get(REGISTER_CAPTCHA_KEY + authDO.getEmail());
+        if (!authDO.getCode().equals(sendCode)) {
+            throw new BusinessException(LoginExceptionCode.CODE_NOT_MATCH);
+        }
+        redisClient.delete(REGISTER_CAPTCHA_KEY + authDO.getEmail());
+
+        // 新增用户
+        UserDO userDO = new UserDO();
+        userDO.setUsername(authDO.getUsername());
+        userDO.setEmail(authDO.getEmail());
+        userDO.setPassword(EncryptUtil.md5(authDO.getPassword()));
+        userRepo.insert(userDO);
+    }
 
     @Override
     public AuthDO loginByUsername(AuthDO authDO) {
