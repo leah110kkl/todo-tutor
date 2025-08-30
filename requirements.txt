@@ -1,0 +1,10 @@
+python==3.13
+playwright==1.54.0  
+rq==1.9.0          
+redis==6.4.0        
+# 数据存储依赖（无需额外安装，Python 3.13自带）
+# 说明：代码中使用Python自带的sqlite3模块，无需添加sqlite3-binary等额外依赖
+# 直接在代码中import sqlite3即可调用，新环境无需单独安装
+typing-extensions==4.14.1  
+urllib3==2.5.0             
+
