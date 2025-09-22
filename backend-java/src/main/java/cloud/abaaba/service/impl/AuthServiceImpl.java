@@ -13,6 +13,7 @@ import cloud.abaaba.common.trace.ReqInfoContextHolder;
 import cloud.abaaba.common.utils.CaptchaUtil;
 import cloud.abaaba.common.utils.EncryptUtil;
 import cloud.abaaba.service.AuthService;
+import cloud.abaaba.service.constant.UserTypeConstant;
 import cloud.abaaba.service.domain.AuthDO;
 import cloud.abaaba.service.domain.UserDO;
 import cloud.abaaba.service.repo.UserRepo;
@@ -50,6 +51,26 @@ public class AuthServiceImpl implements AuthService {
     public static final String LOGIN_CAPTCHA_KEY = "todo-tutor:captcha:login:";
     public static final String RESET_PASSWORD_CAPTCHA_KEY = "todo-tutor:captcha:reset-password:";
     public static final String RESET_EMAIL_CAPTCHA_KEY = "todo-tutor:captcha:reset-email:";
+
+    @Override
+    public AuthDO loginByAnonymous() {
+        UserDO userDO = new UserDO();
+        userDO.setUserId(IdUtil.getSnowflakeNextId());
+        userDO.setNickName("匿名用户");
+        userDO.setType(UserTypeConstant.ANONYMOUS);
+        userRepo.insert(userDO);
+
+        // 生成token
+        String token = IdUtil.fastSimpleUUID();
+        redisClient.sAdd(LOGIN_USER + userDO.getUserId(), token);
+        redisClient.set(LOGIN_TOKEN + token, userDO, 14, TimeUnit.DAYS);
+
+        // 返回登录信息
+        AuthDO loginInfo = new AuthDO();
+        loginInfo.setToken(token);
+        loginInfo.setUserDO(userDO);
+        return loginInfo;
+    }
 
     @Override
     public void sendRegisterEmail(AuthDO authDO) {
@@ -103,6 +124,7 @@ public class AuthServiceImpl implements AuthService {
         userDO.setUsername(authDO.getUsername());
         userDO.setEmail(authDO.getEmail());
         userDO.setPassword(EncryptUtil.md5(authDO.getPassword()));
+        userDO.setType(UserTypeConstant.STANDARD);
         userRepo.insert(userDO);
     }
 

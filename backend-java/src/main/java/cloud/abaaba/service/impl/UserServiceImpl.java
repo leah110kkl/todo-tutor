@@ -4,6 +4,7 @@ import cloud.abaaba.common.exception.BusinessException;
 import cloud.abaaba.common.exception.enums.GlobalExceptionCode;
 import cloud.abaaba.common.utils.EncryptUtil;
 import cloud.abaaba.service.UserService;
+import cloud.abaaba.service.constant.UserTypeConstant;
 import cloud.abaaba.service.domain.UserDO;
 import cloud.abaaba.service.repo.UserRepo;
 import cn.hutool.core.util.StrUtil;
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
         // 设置初始密码
         userDO.setPassword(EncryptUtil.md5(DEFAULT_PASSWORD));
+        userDO.setType(UserTypeConstant.STANDARD);
         return userRepo.insert(userDO);
     }
 

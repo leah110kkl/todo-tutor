@@ -1,6 +1,7 @@
 package cloud.abaaba.repo.po;
 
 import cloud.abaaba.common.mybatis.BasePO;
+import cloud.abaaba.service.constant.UserTypeConstant;
 import cloud.abaaba.service.domain.UserDO;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -46,6 +47,13 @@ public class UserPO extends BasePO {
      * 密码
      */
     private String password;
+
+    /**
+     * 用户类型：0-匿名用户 1-普通用户
+     *
+     * @see UserTypeConstant
+     */
+    private String type;
 
     public UserPO(UserDO userDO) {
         BeanUtil.copyProperties(userDO, this);

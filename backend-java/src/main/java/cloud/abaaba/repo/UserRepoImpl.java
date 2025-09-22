@@ -80,8 +80,9 @@ public class UserRepoImpl extends ServiceImpl<UserMapper, UserPO> implements Use
 
     @Override
     public Long insert(UserDO userDO) {
-        userMapper.insert(new UserPO(userDO));
-        return userDO.getUserId();
+        UserPO userPO = new UserPO(userDO);
+        userMapper.insert(userPO);
+        return userPO.getId();
     }
 
     @Override

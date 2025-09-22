@@ -11,6 +11,13 @@ import cloud.abaaba.service.domain.AuthDO;
 public interface AuthService {
 
     /**
+     * 匿名登录
+     *
+     * @return authDO
+     */
+    AuthDO loginByAnonymous();
+
+    /**
      * 发送注册验证码
      *
      * @param authDO authDO

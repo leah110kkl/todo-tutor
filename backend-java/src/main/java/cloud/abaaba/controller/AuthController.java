@@ -27,6 +27,12 @@ public class AuthController {
     @Resource
     private AuthService authService;
 
+    @Operation(summary = "匿名用户登录")
+    @PostMapping("/loginByAnonymous")
+    public Response<AuthDO> loginByAnonymous() {
+        return Response.success(authService.loginByAnonymous());
+    }
+
     @Operation(summary = "发送验证码（注册）")
     @PostMapping("/sendRegisterEmail")
     public Response<?> sendRegisterEmail(@RequestBody AuthDTO registerDTO) {

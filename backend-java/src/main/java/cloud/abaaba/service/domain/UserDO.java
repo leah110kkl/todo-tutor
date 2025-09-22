@@ -1,5 +1,6 @@
 package cloud.abaaba.service.domain;
 
+import cloud.abaaba.service.constant.UserTypeConstant;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
@@ -43,5 +44,12 @@ public class UserDO {
      * 密码
      */
     private String password;
+
+    /**
+     * 用户类型：0-匿名用户 1-普通用户
+     *
+     * @see UserTypeConstant
+     */
+    private String type;
 
 }

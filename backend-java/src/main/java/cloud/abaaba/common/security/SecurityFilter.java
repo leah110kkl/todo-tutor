@@ -41,6 +41,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             "/auth/loginByUsername",
             "/auth/sendLoginEmail",
             "/auth/loginByEmail",
+            "/auth/loginByAnonymous",
 
             "/doc.html",
             "/favicon.ico",
