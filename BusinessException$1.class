@@ -1,0 +1,57 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/db-todo-tutor?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+      database: 0
+  mail:
+    host: smtp.qq.com
+    username: ${MAIL_USERNAME:your-email@qq.com}
+    password: ${MAIL_PASSWORD:your-auth-code}
+    port: 465
+    default-encoding: UTF-8
+    properties:
+      timeout: 5000
+      connection-timeout: 5000
+      write-timeout: 5000
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: smtp.qq.com
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+            fallback: false
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: cloud.abaaba.controller
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
+app:
+  mail:
+    mock-enabled: false

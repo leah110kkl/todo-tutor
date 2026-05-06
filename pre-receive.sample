@@ -1,24 +1,9 @@
-#!/bin/sh
-#
-# An example hook script to make use of push options.
-# The example simply echoes all push options that start with 'echoback='
-# and rejects all pushes when the "reject" push option is used.
-#
-# To enable this hook, rename this file to "pre-receive".
-
-if test -n "$GIT_PUSH_OPTION_COUNT"
-then
-	i=0
-	while test "$i" -lt "$GIT_PUSH_OPTION_COUNT"
-	do
-		eval "value=\$GIT_PUSH_OPTION_$i"
-		case "$value" in
-		echoback=*)
-			echo "echo from the pre-receive-hook: ${value#*=}" >&2
-			;;
-		reject)
-			exit 1
-		esac
-		i=$((i + 1))
-	done
-fi
+[31m2026-03-19 06:43:57[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m51s141ms).
+[0;39m[31m2026-03-19 06:59:53[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s681ms).
+[0;39m[31m2026-03-19 07:16:18[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s682ms).
+[0;39m[31m2026-03-19 07:32:14[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s757ms).
+[0;39m[31m2026-03-19 07:48:40[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s800ms).
+[0;39m[31m2026-03-19 08:25:25[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=36m14s785ms).
+[0;39m[31m2026-03-19 08:41:51[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m25s730ms).
+[0;39m[31m2026-03-19 11:33:21[0;39m [36m[][0;39m [32m[HikariPool-1 housekeeper][0;39m [31mWARN [0;39m [1;35mcom.zaxxer.hikari.pool.HikariPool[0;39m - [30mHikariPool-1 - Retrograde clock change detected (housekeeper delta=29s761ms), soft-evicting connections from pool.
+[0;39m

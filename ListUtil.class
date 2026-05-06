@@ -1,0 +1,82 @@
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <!-- 定义属性 -->
+    <property name="LOG_DIR" value="${LOG_PATH:-./logs}" />
+
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %cyan([%X{traceId}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %black(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 输出所有级别的日志 -->
+    <appender name="FILE_ALL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/application-all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${LOG_DIR}/application-all-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 最大单个文件大小 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 最多保留 30 天的日志文件 -->
+            <maxHistory>30</maxHistory>
+            <!-- 总共最多保留 1GB 的日志文件 -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %cyan([%X{traceId}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %black(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 输出 ERROR 级别及以上的日志 -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/application-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${LOG_DIR}/application-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 最大单个文件大小 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 最多保留 30 天的日志文件 -->
+            <maxHistory>30</maxHistory>
+            <!-- 总共最多保留 1GB 的日志文件 -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %cyan([%X{traceId}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %black(%msg%n)</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!-- 异步日志记录 -->
+    <appender name="ASYNC_FILE_ALL" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE_ALL"/>
+        <queueSize>256</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
+
+    <appender name="ASYNC_FILE_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE_ERROR"/>
+        <queueSize>256</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
+
+    <!-- 根 logger 配置 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE_ALL"/>
+        <appender-ref ref="ASYNC_FILE_ERROR"/>
+    </root>
+
+    <!-- 特定包的日志级别配置 -->
+    <logger name="com.yourcompany" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_FILE_ALL" />
+        <appender-ref ref="ASYNC_FILE_ERROR" />
+    </logger>
+
+</configuration>

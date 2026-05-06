@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/leah110kkl/todo-tutor.git
+	fetch = +refs/heads/backend-java:refs/remotes/origin/backend-java
+[branch "backend-java"]
+	remote = origin
+	merge = refs/heads/backend-java
