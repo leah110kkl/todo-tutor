@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/leah110kkl/todo-tutor-68.git
+	fetch = +refs/heads/main:refs/remotes/origin/main
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	vscode-merge-base = origin/main
